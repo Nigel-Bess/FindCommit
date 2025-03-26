@@ -30,6 +30,7 @@ public partial class Commit
 
     private bool CanOpenPr() => TryGetPrLinK(out _);
 
+    [RelayCommand]
     public void CopyCommitHash() => Clipboard.SetText(Hash);
 
     // Chat GPT Code

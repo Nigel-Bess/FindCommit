@@ -24,7 +24,8 @@
                                     </Button.ToolTip>
                                 <Button.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Copy commit hash"/>
+                                        <MenuItem Header="View changes" Command="{Binding OpenCommitCommand}"/>
+                                        <MenuItem Header="Copy commit hash" Command="{Binding CopyCommitHashCommand}"/>
                                         <MenuItem Header="Open PR"  Command="{Binding OpenPrCommand}"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
