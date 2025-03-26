@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:FindCommit"
         mc:Ignorable="d"
         Title="Commit Search" Height="450" Width="800"
-        d:DataContext="{d:DesignInstance  Type=local:MainWindowViewModel}">
+        d:DataContext="{d:DesignInstance  Type=local:MainWindowViewModel}"
+        x:Name="Root">
     <Window.Resources>
     </Window.Resources>
     <Grid>
@@ -17,13 +18,14 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
 
-                            <Button Content="{Binding Message}" Command="{Binding DataContext.InvokeOpenCommitCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" HorizontalAlignment="Stretch" BorderThickness="0" HorizontalContentAlignment="Left">
+                            <Button Content="{Binding Message}" Command="{Binding OpenCommitCommand}" HorizontalAlignment="Stretch" BorderThickness="0" HorizontalContentAlignment="Left">
                                     <Button.ToolTip>
                                         <ToolTip Content="{Binding Hash}" ToolTipService.InitialShowDelay="0"/>
                                     </Button.ToolTip>
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Copy commit hash"/>
+                                        <MenuItem Header="Open PR"  Command="{Binding OpenPrCommand}"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
                                 </Button>

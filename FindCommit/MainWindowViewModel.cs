@@ -1,17 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace FindCommit;
 
-[ObservableObject]
-internal partial class MainWindowViewModel
+internal partial class MainWindowViewModel : ObservableObject
 {
     [ObservableProperty]
     private ObservableCollection<Commit> _currentlyVisibleCommits = new();
-
-    public Action<Commit> OpenCommit { get; set; } = _ => { };
 
     public string SearchText
     {
@@ -33,9 +29,6 @@ internal partial class MainWindowViewModel
             Task.Run(() => RecalculateSearchResults());
         }
     } = new();
-
-    [RelayCommand]
-    public void InvokeOpenCommit(Commit commit) => OpenCommit(commit);
 
     private void RecalculateSearchResults()
     {
