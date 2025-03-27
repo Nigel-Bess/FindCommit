@@ -21,7 +21,12 @@
                 <ItemsControl ItemsSource="{Binding CurrentlyVisibleCommits}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80*"/>
+                                    <ColumnDefinition Width="20*"/>
+                                </Grid.ColumnDefinitions>
+                            
                             <Button Content="{Binding Message}" Command="{Binding OpenCommitCommand}" HorizontalAlignment="Stretch" BorderThickness="0" HorizontalContentAlignment="Left">
                                     <Button.ToolTip>
                                         <ToolTip Content="{Binding Hash}" ToolTipService.InitialShowDelay="0"/>
@@ -33,9 +38,11 @@
                                         <MenuItem Header="Open PR"  Command="{Binding OpenPrCommand}"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
-                                </Button>
-                            
-   
+                            </Button>
+                            <TextBlock Grid.Column="1" Text="{Binding Date}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            </Grid>
+
+
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

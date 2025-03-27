@@ -28,34 +28,29 @@ public static class GitFunctionality
     // Chat GPT Code
     public static IEnumerable<Commit> GetGitCommits(string? folderPath = null)
     {
-        var baseUrl = GetRemoteUrl(folderPath ?? Environment.CurrentDirectory);
-
-        var startInfo = new ProcessStartInfo
+        var baseDir = folderPath ?? Environment.CurrentDirectory;
+        var startInfo = new ProcessStartInfo("git", "log --pretty=format:%H|%cI|%s")
         {
-            WorkingDirectory = folderPath ?? Environment.CurrentDirectory,
-            FileName = "git",
-            Arguments = "log --pretty=format:%H|%s",
+            WorkingDirectory = baseDir,
             RedirectStandardOutput = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
 
-        using var process = new Process { StartInfo = startInfo };
-        process.Start();
-
-
+        using var process = Process.Start(startInfo)!;
         string? line;
+        var remoteBaseUrl = GetRemoteUrl(baseDir);
         while ((line = process.StandardOutput.ReadLine()) != null)
         {
-            if (string.IsNullOrWhiteSpace(line))
-                continue;
-
-            var parts = line.Split('|', 2);
-            var hash = parts[0];
-            var commitMsg = parts.Length > 1 ? parts[1] : string.Empty;
-            yield return new() { RemoteBaseUrl = baseUrl, Hash = hash, Message = commitMsg };
+            var parts = line.Split('|', 3);
+            yield return new Commit
+            {
+                RemoteBaseUrl = remoteBaseUrl,
+                Hash = parts[0],
+                Date = DateTimeOffset.Parse(parts[1]).ToLocalTime().DateTime,
+                Message = parts.Length > 2 ? parts[2] : string.Empty
+            };
         }
-
         process.WaitForExit();
     }
 

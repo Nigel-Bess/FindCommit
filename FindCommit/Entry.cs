@@ -9,6 +9,7 @@ public static class Entry
         string folderPath = null;
         if (Debugger.IsAttached) folderPath = "C:\\Dev\\Fulfil.NET";// put whatever path you want here for debugging. (path will populate automatically if running from CLI)
         var commits = GitFunctionality.GetGitCommits(folderPath).ToList();
+        commits.Sort((x, y) => (-x.Date.Ticks).CompareTo(-y.Date.Ticks));
         var vm = new MainWindowViewModel() { AllCommits = commits };
         var window = new MainWindow { DataContext = vm };
         window.Show();

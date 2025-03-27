@@ -12,6 +12,7 @@ public partial class Commit
     public required string Message { get; init; }
 
     public required string RemoteBaseUrl { get; init; }
+    public required DateTime Date { get; init; }
 
     [RelayCommand]
     public void OpenCommit()
